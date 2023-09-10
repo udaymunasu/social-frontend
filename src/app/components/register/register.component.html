@@ -1,0 +1,41 @@
+<!-- user-management.component.html -->
+
+<div class="user-management-container">
+  <h2>User Management</h2>
+
+  <!-- User Registration Section -->
+  <div class="user-form-container">
+    <h3>User Registration</h3>
+    <form [formGroup]="userForm" >
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" />
+
+      <label for="email">Password:</label>
+      <input type="email" id="email" formControlName="password" />
+
+     <div class="form-group">
+      <label>Image</label>
+      <input type="file" class="form-control" accept="image/*" (change)="imageChanged($event)" />
+    </div>
+
+      <button (click)="registerUser()">Register</button>
+    </form>
+  </div>
+
+  <!-- User List Section -->
+
+  <div class="user-card"  *ngFor="let user of users">
+    <div class="user-card-header">
+      <img src="{{ user.profilePic }}" alt="{{ user.name }}'s Profile Picture" class="user-avatar">
+      <h2>{{ user.name }}</h2>
+    </div>
+    <div class="user-card-info">
+      <p>Email: {{ user.email }}</p>
+      <p>Password: {{ user.password }}</p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,23 @@
+<!-- profile.component.html -->
+
+<div class="profile-container">
+  <h2>User Profile</h2>
+
+  <!-- Display User Posts with Animated Cards -->
+  <div *ngFor="let post of posts" class="post-card"> 
+    <div class="post-content">
+      <h3 class="user-name">{{ post.userId }}</h3>
+      <h3 class="post-title">{{ post.title }}</h3>
+      <p class="post-description">{{ post.content }}</p>
+      <p class="post-location">Location: {{ post.location }}</p>
+
+      <!-- Display images with animation on hover -->
+      <div *ngIf="post.userImage" class="post-images">
+        <h4 class="image-title">Images:</h4>
+        <div class="post-image-container">
+          <img [src]="post.userImage" alt="Post Image" class="post-image" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

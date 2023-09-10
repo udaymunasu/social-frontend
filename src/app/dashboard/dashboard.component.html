@@ -1,0 +1,94 @@
+<div class="row table-bordered">
+  <div class="col-lg-12">
+    <h1>Posts</h1>
+  </div>
+  <div class="col-lg-12">
+    <form [formGroup]="formdata">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" formControlName="title" />
+      </div>
+
+      <div class="form-group">
+        <label>Content</label>
+        <textarea id="content" formControlName="content"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>location</label>
+        <input type="text" class="form-control" formControlName="location" />
+      </div>
+
+      <div class="form-group">
+        <label>Image</label>
+        <input
+          type="file"
+          class="form-control"
+          accept="image/*"
+          (change)="imageChanged($event)"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="submit"
+          (click)="onClickSubmit()"
+          value="Save"
+          class="btn btn-success"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+
+<h2>Welcome to the Dashboard</h2>
+
+<!-- Display Posts -->
+<div class="post-list">
+  <div *ngFor="let post of posts" class="post">
+    <div class="post-content">
+      <h3 class="post-title">{{ post.title }}</h3>
+      <p class="post-description">{{ post.content }}</p>
+      <p class="post-location">Location: {{ post.location }}</p>
+
+      <!-- Display images with animation on hover -->
+      <div class="image-container">
+        <h4 class="image-title">Images:</h4>
+        <div class="image-wrapper">
+          <img [src]="post.userImage" alt="Post Image" class="post-image" />
+        </div>
+      </div>
+
+      <!-- Like and Unlike buttons -->
+      <div class="post-actions">
+        <button (click)="likePost(post._id)">Like</button>
+        <button (click)="unlikePost(post._id)">Unlike</button>
+        <form [formGroup]="formdata">
+          <div class="form-group">
+            <input
+              type="text"
+              formControlName="comment"
+              placeholder="Add a comment"
+            />
+          </div>
+          <div class="form-group">
+            <button (click)="addCommentToPost(post)">Post Comment</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Display likes and unlikes count -->
+      <div class="like-count">Likes: {{ post.likes.length }}</div>
+      <div class="unlike-count">Unlikes: {{ post.unlikes.length }}</div>
+
+      <!-- Display comments -->
+      <div class="comments">
+        <div *ngFor="let comment of post.comments" class="comment">
+          <p>{{ comment.text }}</p>
+          <button (click)="onDeleteComment(post._id, comment._id)">
+            Delete Comment
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
