@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
       title: ['', Validators.required],
       content: ['', Validators.required],
       location: [''],
+      image:[''],
       comment: [''],
     });
 
@@ -52,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
   onClickSubmit() {
     const data = this.formdata.value;
-    data.userImage = this.imagestring;
+    data.userImage = this.imageBase64;
     data.userId = JSON.parse(this.currentUser)._id;
     this.dataService.createPost(data).subscribe((result: any) => {
       console.log(result);
@@ -82,16 +83,28 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  imageBase64: string | null = null;
   imageChanged(event: any) {
-    debugger;
-    let file = event.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      if (reader.result != null) {
-        this.imagestring = reader.result.toString();
-      }
-    };
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e?.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          // Define new dimensions (e.g., 200x200)
+          const newWidth = 200;
+          const newHeight = 200;
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          ctx?.drawImage(img, 0, 0, newWidth, newHeight);
+          this.imageBase64 = canvas.toDataURL('image/jpeg'); // You can specify the desired image format
+        };
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   likePost(postId: string) {

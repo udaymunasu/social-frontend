@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,10 +6,14 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'social-app';
   constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.isLoggedIn = localStorage?.['user']?._id
+  }
 
+  isLoggedIn: boolean
   logout() {
     // Clear local storage data
     localStorage.clear();
